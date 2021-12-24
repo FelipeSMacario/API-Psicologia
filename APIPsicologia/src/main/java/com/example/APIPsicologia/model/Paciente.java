@@ -20,4 +20,6 @@ public class Paciente {
 
     @ManyToOne
     private Usuario usuario;
+
+    private String foto;
 }

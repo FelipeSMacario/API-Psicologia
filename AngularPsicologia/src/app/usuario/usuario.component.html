@@ -1,0 +1,25 @@
+<div class="container">
+    <label class="titulo">
+        <h1>Próximas consultas</h1>
+      </label>
+      
+      <carousel [pauseOnFocus]="true" >
+        <slide *ngFor="let consult of consultas">
+          <div class="card-group">
+            <div class="card">
+              <img
+                class="card-img-top"
+                src="{{consult.paciente.foto}}"
+                alt="Card image cap"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{consult.paciente.nome}}</h5>
+                <p class="card-text">{{consult.data}} {{consult.hora}}</p>
+              </div>
+            </div>
+          </div>
+        </slide>
+      </carousel>
+</div>
+
+

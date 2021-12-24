@@ -2,3 +2,19 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.carousel-indicators .active{
+    background-color: #400485 !important;    
+}
+
+.carousel-indicators button{
+    background-color: gray !important; 
+    width: 20px!important;
+    height: 15px!important;
+    border-radius: 50%; 
+}
+
+.carousel-indicators {
+    bottom: -50px !important;
+    text-align: center;    
+}

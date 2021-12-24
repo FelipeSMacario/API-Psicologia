@@ -8,10 +8,16 @@ import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CardsComponent } from './home/cards/cards.component';
+import { CardsComponent } from './shared/cards/cards.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-
-
+import { FiltroComponent } from './home/filtro/filtro.component';
+import { PacienteComponent } from './paciente/paciente.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { DateComponent } from './shared/date/date.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatNativeDateModule} from '@angular/material/core';
+import { UsuarioComponent } from './usuario/usuario.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,6 +27,10 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     FooterComponent,
     HomeComponent,
     CardsComponent,
+    FiltroComponent,
+    PacienteComponent,
+    DateComponent,
+    UsuarioComponent,
     
   ],
   imports: [
@@ -28,7 +38,10 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     AppRoutingModule,
     BrowserAnimationsModule,
     CarouselModule.forRoot(),
-    
+    MatDatepickerModule,
+    MatCardModule,
+    MatNativeDateModule,
+    HttpClientModule
     
   ],
   providers: [],
