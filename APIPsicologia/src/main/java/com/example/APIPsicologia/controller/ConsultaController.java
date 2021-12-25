@@ -3,9 +3,11 @@ package com.example.APIPsicologia.controller;
 import com.example.APIPsicologia.model.Consulta;
 import com.example.APIPsicologia.service.ConsultaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -38,5 +40,15 @@ public class ConsultaController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteConsulta(@PathVariable Long id){
         return consultaService.deleteConsulta(id);
+    }
+
+//    @GetMapping("/search")
+//    public List<Consulta> listarConsultaPorData(@RequestParam("data") LocalDate data){
+//        return consultaService.listarConsultaPorData(data);
+//    }
+    @GetMapping("/search")
+    List<Consulta> findByData(@RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        System.out.println(date);
+        return consultaService.findByData(date);
     }
 }

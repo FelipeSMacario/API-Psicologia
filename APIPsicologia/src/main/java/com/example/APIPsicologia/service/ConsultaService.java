@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -47,6 +48,14 @@ public class ConsultaService {
                     consultaRepository.deleteById(id);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+//    public List<Consulta> listarConsultaPorData(LocalDate data){
+//        return consultaRepository.findByData(data);
+//    }
+
+    public List<Consulta> findByData(LocalDate date){
+        return consultaRepository.ListarPorData(date);
     }
 
 
