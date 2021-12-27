@@ -1,4 +1,4 @@
 <div class="container">
-    <app-date></app-date>
-    <app-cards></app-cards>
+    <app-date (calendario)="filtrarData($event)"></app-date>
+    <app-cards [cards]="consultas" ></app-cards>
 </div>

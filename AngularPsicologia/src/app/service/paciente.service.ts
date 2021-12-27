@@ -15,4 +15,6 @@ export class PacienteService {
   listarPacientes() : Observable<Paciente[]>{
     return this.httpClient.get<Paciente[]>(`${this.url}`);
   }
+
+  
 }

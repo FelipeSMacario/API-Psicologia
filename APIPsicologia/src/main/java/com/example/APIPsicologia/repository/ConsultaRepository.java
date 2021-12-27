@@ -7,11 +7,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
 public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
-    @Query(value = "SELECT * FROM psicologia.consulta WHERE data = :date  order by hora", nativeQuery = true)
-    List<Consulta> ListarPorData(@Param("date") LocalDate date);
+    @Query(value = "SELECT * FROM psicologia.consulta WHERE data = :date and hora >= IFNULL (:hora,hora) order by hora", nativeQuery = true)
+    List<Consulta> ListarPorData(@Param("date") LocalDate date, @Param("hora") LocalTime hora);
 }

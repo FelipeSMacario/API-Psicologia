@@ -1,5 +1,7 @@
 package com.example.APIPsicologia.service;
 
+import com.example.APIPsicologia.exceptions.FinalDeSemanaExceptions;
+import com.example.APIPsicologia.exceptions.ForaHorarioException;
 import com.example.APIPsicologia.model.Consulta;
 import com.example.APIPsicologia.repository.ConsultaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +10,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
 public class ConsultaService {
+
     @Autowired
     ConsultaRepository consultaRepository;
 
-    public Consulta createConsulta(@RequestBody Consulta consulta){
-        return consultaRepository.save(consulta);
+    public ResponseEntity<?> createConsulta(@RequestBody Consulta consulta)  {
+        try {
+            if (consulta.getData().getDayOfWeek() == DayOfWeek.SATURDAY || consulta.getData().getDayOfWeek() == DayOfWeek.SUNDAY)
+                throw new FinalDeSemanaExceptions();
+
+            if (consulta.getHora().isBefore( LocalTime.parse("09:00")) || consulta.getHora().isAfter(LocalTime.parse("17:00")))
+                throw new ForaHorarioException();
+
+        } catch (FinalDeSemanaExceptions | ForaHorarioException fds ) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(fds.toString());
+        }
+        return new ResponseEntity<>(consultaRepository.save(consulta), HttpStatus.CREATED);
     }
 
     public List<Consulta> listarConsulta(){
@@ -54,9 +69,11 @@ public class ConsultaService {
 //        return consultaRepository.findByData(data);
 //    }
 
-    public List<Consulta> findByData(LocalDate date){
-        return consultaRepository.ListarPorData(date);
+    public List<Consulta> findByData(LocalDate date, LocalTime hora){
+        return consultaRepository.ListarPorData(date, hora);
     }
 
+    public void validaFinalDeSemana() {
 
+    }
 }

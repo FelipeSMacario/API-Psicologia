@@ -15,4 +15,8 @@ export class ConsultaService {
   listarConsultas() : Observable<Consulta[]> {
     return this.httpClient.get<Consulta[]>(`${this.url}`);
   }
+
+  filtrarConsultaporDate(query : string) :  Observable<Consulta[]>{
+    return this.httpClient.get<Consulta[]>(`${this.url}/search?${query}`);
+  }
 }

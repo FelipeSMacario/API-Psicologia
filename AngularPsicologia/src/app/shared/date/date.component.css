@@ -1,13 +1,13 @@
 .demo-inline-calendar-card {
-    width: 400px;
-    border: 0px solid !important;
-  }
+  width: 400px;
+  border: 0px solid !important;
+}
 
-  .calendario{
-      border: 1px solid #400485;
-  }
+.calendario {
+  border: 1px solid #400485;
+}
 
-  .data{
-      display: flex;
-      justify-content: center;
-  }
+.data {
+  display: flex;
+  justify-content: center;
+}
