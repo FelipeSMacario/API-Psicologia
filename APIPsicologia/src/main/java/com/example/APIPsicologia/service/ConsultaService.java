@@ -1,8 +1,9 @@
 package com.example.APIPsicologia.service;
 
-import com.example.APIPsicologia.exceptions.FinalDeSemanaExceptions;
-import com.example.APIPsicologia.exceptions.ForaHorarioException;
+import com.example.APIPsicologia.exceptions.*;
 import com.example.APIPsicologia.model.Consulta;
+import com.example.APIPsicologia.model.Paciente;
+import com.example.APIPsicologia.model.Usuario;
 import com.example.APIPsicologia.repository.ConsultaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,31 +22,37 @@ public class ConsultaService {
     @Autowired
     ConsultaRepository consultaRepository;
 
-    public ResponseEntity<?> createConsulta(@RequestBody Consulta consulta)  {
+    public ResponseEntity<?> createConsulta(@RequestBody Consulta consulta) {
         try {
-            if (consulta.getData().getDayOfWeek() == DayOfWeek.SATURDAY || consulta.getData().getDayOfWeek() == DayOfWeek.SUNDAY)
-                throw new FinalDeSemanaExceptions();
+            validaFinalDeSemana(consulta.getData());
+            validHoraFuncionamento(consulta.getHora());
+            horaDisponivel(consulta.getData(), consulta.getHora(), consulta.getUsuario(), consulta.getPaciente());
 
-            if (consulta.getHora().isBefore( LocalTime.parse("09:00")) || consulta.getHora().isAfter(LocalTime.parse("17:00")))
-                throw new ForaHorarioException();
-
-        } catch (FinalDeSemanaExceptions | ForaHorarioException fds ) {
+        } catch (FinalDeSemanaExceptions | ForaHorarioException | HorarioDisponivelException | PacienteHorarioException | PacienteUsuarioException fds) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(fds.toString());
         }
         return new ResponseEntity<>(consultaRepository.save(consulta), HttpStatus.CREATED);
     }
 
-    public List<Consulta> listarConsulta(){
+    public List<Consulta> listarConsulta() {
         return consultaRepository.findAll();
     }
 
-    public ResponseEntity<Consulta> findConsultaById(Long id){
+    public ResponseEntity<Consulta> findConsultaById(Long id) {
         return consultaRepository.findById(id)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    public ResponseEntity updateConsulta(@RequestBody Consulta consulta, Long id){
+    public ResponseEntity updateConsulta(@RequestBody Consulta consulta, Long id) {
+        try {
+            validaFinalDeSemana(consulta.getData());
+            validHoraFuncionamento(consulta.getHora());
+            horaDisponivel(consulta.getData(), consulta.getHora(), consulta.getUsuario(), consulta.getPaciente());
+
+        } catch (FinalDeSemanaExceptions | ForaHorarioException | HorarioDisponivelException | PacienteHorarioException | PacienteUsuarioException fds) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(fds.toString());
+        }
         return consultaRepository.findById(id)
                 .map(record -> {
                     record.setUsuario(consulta.getUsuario());
@@ -57,7 +64,7 @@ public class ConsultaService {
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    public ResponseEntity deleteConsulta(Long id){
+    public ResponseEntity deleteConsulta(Long id) {
         return consultaRepository.findById(id)
                 .map(record -> {
                     consultaRepository.deleteById(id);
@@ -65,15 +72,27 @@ public class ConsultaService {
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-//    public List<Consulta> listarConsultaPorData(LocalDate data){
-//        return consultaRepository.findByData(data);
-//    }
 
-    public List<Consulta> findByData(LocalDate date, LocalTime hora){
+    public List<Consulta> findByData(LocalDate date, LocalTime hora) {
         return consultaRepository.ListarPorData(date, hora);
     }
 
-    public void validaFinalDeSemana() {
+    public static void validaFinalDeSemana(LocalDate data) throws FinalDeSemanaExceptions {
+        if (data.getDayOfWeek() == DayOfWeek.SATURDAY || data.getDayOfWeek() == DayOfWeek.SUNDAY)
+            throw new FinalDeSemanaExceptions();
+    }
 
+    public static void validHoraFuncionamento(LocalTime hora) throws ForaHorarioException {
+        if (hora.isBefore(LocalTime.parse("09:00")) || hora.isAfter(LocalTime.parse("17:00")))
+            throw new ForaHorarioException();
+    }
+
+    public void horaDisponivel(LocalDate data, LocalTime hora, Usuario usuario, Paciente paciente) throws PacienteUsuarioException, HorarioDisponivelException, PacienteHorarioException {
+        if (consultaRepository.findByDataAndHoraAndUsuarioAndPaciente(data, hora, usuario, paciente).size() > 0)
+            throw new PacienteUsuarioException();
+        else if (consultaRepository.findByDataAndHoraAndUsuario(data, hora, usuario).size() > 0)
+            throw new HorarioDisponivelException();
+        else if (consultaRepository.findByDataAndHoraAndPaciente(data, hora, paciente).size() > 0)
+            throw new PacienteHorarioException();
     }
 }
