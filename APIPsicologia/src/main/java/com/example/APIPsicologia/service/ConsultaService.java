@@ -48,11 +48,11 @@ public class ConsultaService {
         try {
             validaFinalDeSemana(consulta.getData());
             validHoraFuncionamento(consulta.getHora());
-            horaDisponivel(consulta.getData(), consulta.getHora(), consulta.getUsuario(), consulta.getPaciente());
 
-        } catch (FinalDeSemanaExceptions | ForaHorarioException | HorarioDisponivelException | PacienteHorarioException | PacienteUsuarioException fds) {
+        } catch (FinalDeSemanaExceptions | ForaHorarioException fds) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(fds.toString());
         }
+
         return consultaRepository.findById(id)
                 .map(record -> {
                     record.setUsuario(consulta.getUsuario());

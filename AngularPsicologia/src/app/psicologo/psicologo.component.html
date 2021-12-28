@@ -1,0 +1,23 @@
+<div class="container">
+  <form>
+    <div class="form-group">
+      <app-select class="form-control form-control-lg"
+        label="Filtrar por estado"
+        [formGroup]="formulario"
+        ControlName="estado"
+        [Objeto]="estados"
+        (modelo)="listarCidade($event)"
+      ></app-select>
+
+      <app-select class="form-control form-control-lg"
+        label="Filtrar por cidade"
+        [formGroup]="formulario"
+        ControlName="cidade"
+        [Objeto]="cidade"
+      ></app-select>  
+
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="abc()">Submit</button>
+  </form>
+</div>

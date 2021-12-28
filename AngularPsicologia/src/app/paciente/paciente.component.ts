@@ -18,7 +18,6 @@ export class PacienteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listarConsultas();
   }
 
   listarConsultas(){

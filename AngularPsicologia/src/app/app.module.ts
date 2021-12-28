@@ -18,6 +18,10 @@ import {MatCardModule} from '@angular/material/card';
 import {MatNativeDateModule} from '@angular/material/core';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PsicologoComponent } from './psicologo/psicologo.component';
+import { SelectComponent } from './shared/inputs/select/select.component';
+import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
     PacienteComponent,
     DateComponent,
     UsuarioComponent,
+    PsicologoComponent,
+    SelectComponent,
     
   ],
   imports: [
@@ -41,7 +47,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatDatepickerModule,
     MatCardModule,
     MatNativeDateModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSelectModule,
+    ReactiveFormsModule
     
   ],
   providers: [],
