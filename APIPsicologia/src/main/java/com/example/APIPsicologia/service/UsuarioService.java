@@ -1,5 +1,6 @@
 package com.example.APIPsicologia.service;
 
+import com.example.APIPsicologia.model.Estado;
 import com.example.APIPsicologia.model.Usuario;
 import com.example.APIPsicologia.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class UsuarioService {
                 .map(record -> {
                     record.setNome(usuario.getNome());
                     record.setEndereco(usuario.getEndereco());
+                    record.setGenero(usuario.getGenero());
+                    record.setIdade(usuario.getIdade());
+                    record.setValor(usuario.getValor());
                     Usuario update = usuarioRepository.save(record);
                     return ResponseEntity.ok().body(update);
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -45,5 +49,9 @@ public class UsuarioService {
                     usuarioRepository.deleteById(id);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    public List<Usuario> filtrarUsuario(String estado, String cidade, Integer idadeInicio, Integer idadeFim){
+        return usuarioRepository.filtrarUsuario(estado, cidade, idadeInicio, idadeFim);
     }
 }

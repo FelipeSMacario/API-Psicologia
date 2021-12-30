@@ -7,12 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavBarComponent implements OnInit {
 
-  mostrarNav : boolean;
+ 
 
   constructor() { }
 
   ngOnInit(): void {
-    this.mostrarNav = JSON.parse(localStorage.getItem("usuarioValidado")!);
+    
   }
 
 }

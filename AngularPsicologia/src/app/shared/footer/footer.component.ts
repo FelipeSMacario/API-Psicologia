@@ -7,13 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  mostrarFooter : boolean;
-
   constructor() { }
 
   ngOnInit(): void {
-
-    this.mostrarFooter = JSON.parse( localStorage.getItem("usuarioValidado")!);
   }
 
 }

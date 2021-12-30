@@ -1,23 +1,59 @@
 <div class="container">
-  <form>
+  <form [formGroup]="formulario">
     <div class="form-group">
-      <app-select class="form-control form-control-lg"
-        label="Filtrar por estado"
-        [formGroup]="formulario"
-        ControlName="estado"
-        [Objeto]="estados"
-        (modelo)="listarCidade($event)"
-      ></app-select>
+      <div class="row">
+        <div class="col">
+          <app-select
+            class="form-control form-control-lg"
+            label="Filtrar por estado"
+            [formGroup]="formulario"
+            ControlName="estado"
+            [Objeto]="estados"
+            (modelo)="listarCidade($event)"
+          ></app-select>
+        </div>
+        <div class="col">
+          <app-select
+            class="form-control form-control-lg"
+            label="Filtrar por cidade"
+            [formGroup]="formulario"
+            ControlName="cidade"
+            [Objeto]="cidade"
+          ></app-select>
+        </div>
+      </div>
 
-      <app-select class="form-control form-control-lg"
-        label="Filtrar por cidade"
-        [formGroup]="formulario"
-        ControlName="cidade"
-        [Objeto]="cidade"
-      ></app-select>  
+      <div class="row">
+        <div class="col">
+          <div class="form-control form-control-lg">
+            <mat-form-field appearance="fill">
+              <mat-label>Filtrar por gênero</mat-label>
+              <mat-select formControlName="genero">
+                <mat-option value="Masculino">Masculino</mat-option>
+                <mat-option value="Feminino">Feminino</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-control form-control-lg">
+            <mat-form-field appearance="fill">
+              <mat-label>Filtrar por idade</mat-label>
+              <mat-select formControlName="idade">
+                <mat-option value=20>Até 20 anos</mat-option>
+                <mat-option value=30>Entre 20 e 30 anos</mat-option>
+                <mat-option value=40>Entre 30 e 40 anos</mat-option>
+                <mat-option value=50>Acima de 40 anos</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
 
+
+      <button type="button" class="btn btn-primary" (click)="abc()">
+        Pesquisar
+      </button>
     </div>
-
-    <button type="button" class="btn btn-primary" (click)="abc()">Submit</button>
   </form>
 </div>

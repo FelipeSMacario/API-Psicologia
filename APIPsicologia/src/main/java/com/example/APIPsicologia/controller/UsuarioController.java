@@ -39,4 +39,12 @@ public class UsuarioController {
     public ResponseEntity deleteUsuario(@PathVariable Long id){
         return usuarioService.deleteUsuario(id);
     }
+
+    @GetMapping("/search")
+    public List<Usuario> filtrarUsuario(@RequestParam(value = "estado", required = false) String estado,
+                                        @RequestParam(value = "cidade", required = false) String cidade,
+                                        @RequestParam(value = "idadeInicio", required = false) Integer idadeInicio,
+                                        @RequestParam(value = "idadeFim", required = false) Integer idadeFim){
+        return usuarioService.filtrarUsuario(estado,cidade, idadeInicio, idadeFim);
+    }
 }

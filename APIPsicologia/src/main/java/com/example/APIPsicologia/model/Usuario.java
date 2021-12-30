@@ -1,11 +1,11 @@
 package com.example.APIPsicologia.model;
 
 
+import com.example.APIPsicologia.enums.Genero;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
@@ -17,6 +17,12 @@ public class Usuario {
     private Long id;
 
     private String nome;
+
+    private Integer idade;
+
+    private Double valor;
+
+    private Genero genero;
 
     @ManyToOne
     private Endereco endereco;
